@@ -18,7 +18,7 @@ mvaSpring16ClassName = "ElectronMVAEstimatorRun2Spring16"
 # The tag is an extra string attached to the names of the products
 # such as ValueMaps that needs to distinguish cases when the same MVA estimator
 # class is used with different tuning/weights
-mvaTag = "25nsV1"
+mvaTag = "V1"
 
 # There are 6 categories in this MVA. They have to be configured in this strict order
 # (cuts and weight files order):
@@ -121,11 +121,11 @@ mvaEleID_Spring16_V1_wp80    = configureVIDMVAEleID_V1( MVA_WP80 )
 #
 
 central_id_registry.register(mvaEleID_Spring16_V1_wpLoose.idName,
-                             '99ff36834c4342110d84ea2350a1229c')
+                             '10ff36834c4342110d84ea2350a1229c')
 central_id_registry.register(mvaEleID_Spring16_V1_wp90.idName,
-                             'ac4fdc160eefe9eae7338601c02ed4bb')
+                             '104fdc160eefe9eae7338601c02ed4bb')
 central_id_registry.register(mvaEleID_Spring16_V1_wp80.idName,
-                             '113c47ceaea0fa687b8bd6d880eb4957')
+                             '103c47ceaea0fa687b8bd6d880eb4957')
 
 mvaEleID_Spring16_V1_wpLoose.isPOGApproved = cms.untracked.bool(True)
 mvaEleID_Spring16_V1_wp90.isPOGApproved    = cms.untracked.bool(True)

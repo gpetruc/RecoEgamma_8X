@@ -159,6 +159,8 @@ createSingleReader(const int iCategory, const edm::FileInPath &weightFile){
   // Configure all variables and spectators. Note: the order and names
   // must match what is found in the xml weights file!
   //
+
+
   // Pure ECAL -> shower shapes
   tmpTMVAReader.AddVariable("ele_oldsigmaietaieta", &_allMVAVars.see);
   tmpTMVAReader.AddVariable("ele_oldsigmaiphiiphi", &_allMVAVars.spp);
@@ -166,11 +168,8 @@ createSingleReader(const int iCategory, const edm::FileInPath &weightFile){
   tmpTMVAReader.AddVariable("ele_oldr9",            &_allMVAVars.R9);
   tmpTMVAReader.AddVariable("ele_scletawidth",      &_allMVAVars.etawidth);
   tmpTMVAReader.AddVariable("ele_sclphiwidth",      &_allMVAVars.phiwidth);
-  tmpTMVAReader.AddVariable("ele_he",               &_allMVAVars.HoE);
-  // Endcap only variables
-  if( isEndcapCategory(iCategory) )
-    tmpTMVAReader.AddVariable("ele_psEoverEraw",    &_allMVAVars.PreShowerOverRaw);
-  
+  tmpTMVAReader.AddVariable("ele_oldhe",               &_allMVAVars.HoE);
+ 
   //Pure tracking variables
   tmpTMVAReader.AddVariable("ele_kfhits",           &_allMVAVars.kfhits);
   tmpTMVAReader.AddVariable("ele_kfchi2",           &_allMVAVars.kfchi2);
@@ -191,19 +190,25 @@ createSingleReader(const int iCategory, const edm::FileInPath &weightFile){
   tmpTMVAReader.AddVariable("ele_deltaetain",      &_allMVAVars.deta);
   tmpTMVAReader.AddVariable("ele_deltaphiin",      &_allMVAVars.dphi);
   tmpTMVAReader.AddVariable("ele_deltaetaseed",    &_allMVAVars.detacalo);
+
+  // Endcap only variables
+  if( isEndcapCategory(iCategory) )
+    tmpTMVAReader.AddVariable("ele_psEoverEraw",    &_allMVAVars.PreShowerOverRaw);
+ 
   
   // Spectator variables  
-  tmpTMVAReader.AddSpectator("ele_pT",             &_allMVAVars.pt);
-  tmpTMVAReader.AddSpectator("ele_isbarrel",       &_allMVAVars.isBarrel);
-  tmpTMVAReader.AddSpectator("ele_isendcap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_pt",             &_allMVAVars.pt);
+  tmpTMVAReader.AddSpectator("ele_isEE",       &_allMVAVars.isBarrel);
+  tmpTMVAReader.AddSpectator("ele_isEB",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEBEtaGap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEBPhiGap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEBEEGap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEERingGap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEEDeeGap",       &_allMVAVars.isEndcap);
+  tmpTMVAReader.AddSpectator("ele_isEE",            &_allMVAVars.SCeta);
   tmpTMVAReader.AddSpectator("scl_eta",            &_allMVAVars.SCeta);
-
   tmpTMVAReader.AddSpectator("ele_eClass",                 &_allMVAVars.eClass);
-  tmpTMVAReader.AddSpectator("ele_pfRelIso",               &_allMVAVars.pfRelIso);
-  tmpTMVAReader.AddSpectator("ele_expected_inner_hits",    &_allMVAVars.expectedInnerHits);
-  tmpTMVAReader.AddSpectator("ele_vtxconv",                &_allMVAVars.vtxconv);
-  tmpTMVAReader.AddSpectator("mc_event_weight",            &_allMVAVars.mcEventWeight);
-  tmpTMVAReader.AddSpectator("mc_ele_CBmatching_category", &_allMVAVars.mcCBmatchingCategory);
+  tmpTMVAReader.AddSpectator("mc_ele_matchedFromCB", &_allMVAVars.mcCBmatchingCategory);
 
   //
   // Book the method and set up the weights file
@@ -345,9 +350,7 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
                                        allMVAVars.etawidth,
                                        allMVAVars.phiwidth,
                                        allMVAVars.HoE,
-                                       // Endcap only variables
-                                       allMVAVars.PreShowerOverRaw,                                       
-                                       //Pure tracking variables
+                                      //Pure tracking variables
                                        allMVAVars.kfhits,
                                        allMVAVars.kfchi2,
                                        allMVAVars.gsfchi2,                                       
@@ -363,6 +366,9 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
                                        allMVAVars.deta,
                                        allMVAVars.dphi,
                                        allMVAVars.detacalo,                                       
+                                       // Endcap only variables
+                                       allMVAVars.PreShowerOverRaw,                                       
+ 
                                        // Spectator variables  
                                        allMVAVars.pt,
                                        allMVAVars.isBarrel,
