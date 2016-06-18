@@ -30,12 +30,12 @@ mvaTag = "V1"
 #   5   EE             pt 10-inf GeV
 
 mvaSpring16WeightFiles_V1 = cms.vstring(
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB1_5_oldNT_Spring16_DY_v5_BDT.weights.xml",
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB2_5_oldNT_Spring16_DY_v5_BDT.weights.xml",
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EE_5_oldNT_Spring16_DY_v5_BDT.weights.xml",
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB1_10_oldNT_Spring16_DY_v5_BDT.weights.xml",
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB2_10_oldNT_Spring16_DY_v5_BDT.weights.xml",
-    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EE_10_oldNT_Spring16_DY_v5_BDT.weights.xml"
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB1_5_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml",
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB2_5_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml",
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EE_5_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml",
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB1_10_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml",
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EB2_10_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml",
+    "RecoEgamma/ElectronIdentification/data/Spring16/EIDmva_EE_10_oldNT_PROPER_Spring16_DY_v1_BDT.weights.xml"
     )
 
 # Load some common definitions for MVA machinery
