@@ -20,7 +20,10 @@ ElectronMVAEstimatorRun2Spring16::ElectronMVAEstimatorRun2Spring16(const edm::Pa
   
   const std::vector <std::string> weightFileNames
     = conf.getParameter<std::vector<std::string> >("weightFileNames");
+  init(weightFileNames);
+}
 
+void ElectronMVAEstimatorRun2Spring16::init(const std::vector <std::string> weightFileNames) {
   if( (int)(weightFileNames.size()) != nCategories )
     throw cms::Exception("MVA config failure: ")
       << "wrong number of weightfiles" << std::endl;
@@ -38,6 +41,20 @@ ElectronMVAEstimatorRun2Spring16::ElectronMVAEstimatorRun2Spring16(const edm::Pa
   }
 
 }
+
+ElectronMVAEstimatorRun2Spring16::ElectronMVAEstimatorRun2Spring16():
+  AnyMVAEstimatorRun2Base(edm::ParameterSet()) {}
+
+ElectronMVAEstimatorRun2Spring16::ElectronMVAEstimatorRun2Spring16(const std::string &mvaTag, const std::string &conversionsTag, const std::string &beamspotTag):
+  AnyMVAEstimatorRun2Base( edm::ParameterSet() ),
+  _tag(mvaTag),
+  _MethodName("BDTG method"),
+  _beamSpotLabel(edm::InputTag(beamspotTag)),
+  _conversionsLabelAOD(edm::InputTag(conversionsTag)),
+  _conversionsLabelMiniAOD(_conversionsLabelAOD) {
+ }
+
+
 
 ElectronMVAEstimatorRun2Spring16::
 ~ElectronMVAEstimatorRun2Spring16(){
@@ -63,6 +80,22 @@ mvaValue( const edm::Ptr<reco::Candidate>& particle, const edm::Event& iEvent) c
   
   const int iCategory = findCategory( particle );
   const std::vector<float> vars = std::move( fillMVAVariables( particle, iEvent ) );  
+  return mvaValue(iCategory, vars);
+}
+
+float ElectronMVAEstimatorRun2Spring16::
+mvaValue( const reco::GsfElectron * particle, const edm::EventBase & iEvent) const {
+  edm::Handle<reco::ConversionCollection> conversions;
+  edm::Handle<reco::BeamSpot> beamSpot;
+  iEvent.getByLabel(_conversionsLabelAOD, conversions);
+  iEvent.getByLabel(_beamSpotLabel, beamSpot);
+  const int iCategory = findCategory( particle );
+  const std::vector<float> vars = std::move( fillMVAVariables( particle, conversions, beamSpot.product() ) );  
+  return mvaValue(iCategory, vars);
+}
+
+float ElectronMVAEstimatorRun2Spring16::
+mvaValue( const int iCategory, const std::vector<float> & vars) const  {
   const float result = _gbrForests.at(iCategory)->GetClassifier(vars.data());
 
   const bool debug = false;
@@ -103,7 +136,10 @@ int ElectronMVAEstimatorRun2Spring16::findCategory( const edm::Ptr<reco::Candida
     throw cms::Exception("MVA failure: ")
       << " given particle is expected to be reco::GsfElectron or pat::Electron," << std::endl
       << " but appears to be neither" << std::endl;
+   return findCategory(eleRecoPtr.get());
+}
 
+int ElectronMVAEstimatorRun2Spring16::findCategory( const reco::GsfElectron * eleRecoPtr ) const {
   float pt = eleRecoPtr->pt();
   float eta = eleRecoPtr->superCluster()->eta();
 
@@ -255,6 +291,14 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
     throw cms::Exception("MVA failure: ")
       << " given particle is expected to be reco::GsfElectron or pat::Electron," << std::endl
       << " but appears to be neither" << std::endl;
+  return fillMVAVariables(eleRecoPtr.get(), conversions, theBeamSpot.product());
+}
+
+// A function that should work on both pat and reco objects
+std::vector<float> ElectronMVAEstimatorRun2Spring16::
+fillMVAVariables(const reco::GsfElectron* eleRecoPtr,
+                 const edm::Handle<reco::ConversionCollection> conversions, const reco::BeamSpot *theBeamSpot ) const {
+
 
   // Both pat and reco particles have exactly the same accessors, so we use a reco ptr 
   // throughout the code, with a single exception as of this writing, handled separately below.
@@ -278,10 +322,10 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
   // This behavior is reported and is expected to change in the future (post-7.4.5 some time).
   bool validKF= false; 
   reco::TrackRef myTrackRef = eleRecoPtr->closestCtfTrackRef();
-  const edm::Ptr<pat::Electron> elePatPtr(eleRecoPtr);
+  const pat::Electron * elePatPtr = dynamic_cast<const pat::Electron *>(eleRecoPtr);
   // Check if this is really a pat::Electron, and if yes, get the track ref from this new
   // pointer instead
-  if( elePatPtr.get() != NULL )
+  if( elePatPtr != NULL )
     myTrackRef = elePatPtr->closestCtfTrackRef();
   validKF = (myTrackRef.isAvailable() && (myTrackRef.isNonnull()) );  
 
@@ -342,7 +386,7 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
 
   std::vector<float> vars;
 
-  if( isEndcapCategory( findCategory( particle ) ) ) {
+  if( isEndcapCategory( findCategory( eleRecoPtr ) ) ) {
     vars = std::move( packMVAVariables(allMVAVars.see,
                                        allMVAVars.spp,
                                        allMVAVars.OneMinusE1x5E5x5,
