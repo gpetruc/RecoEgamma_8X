@@ -22,7 +22,6 @@ TLEMVAEstimatorRun2Fall15::TLEMVAEstimatorRun2Fall15(const edm::ParameterSet& co
 {
  sampleType = 2015;
  setup = sampleType;
-// rhoForEleToken = consumes<double>(LeptonIsoHelper::getEleRhoTag(sampleType, setup));
 
 
   //
