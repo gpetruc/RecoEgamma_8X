@@ -155,8 +155,4 @@ class ElectronMVAEstimatorRun2Spring16 : public AnyMVAEstimatorRun2Base{
   
 };
 
-DEFINE_EDM_PLUGIN(AnyMVAEstimatorRun2Factory,
-		  ElectronMVAEstimatorRun2Spring16,
-		  "ElectronMVAEstimatorRun2Spring16");
-
 #endif
