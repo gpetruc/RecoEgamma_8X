@@ -1,5 +1,4 @@
 #include "RecoEgamma/PhotonIdentification/interface/TLEMVAEstimatorRun2Fall15.h"
-#include <ZZAnalysis/AnalysisStep/interface/LeptonIsoHelper.h>
 
 #include "FWCore/ParameterSet/interface/FileInPath.h"
 
