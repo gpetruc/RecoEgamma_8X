@@ -269,7 +269,7 @@ fillMVAVariables(const edm::Ptr<reco::Candidate>& particle,
   allMVAVars.R9             = eleRecoPtr->full5x5_r9();
   allMVAVars.etawidth       = superCluster->etaWidth();
   allMVAVars.phiwidth       = superCluster->phiWidth();
-  allMVAVars.HoE            = eleRecoPtr->hadronicOverEm();
+  allMVAVars.HoE            = eleRecoPtr->full5x5_hcalOverEcal(); //hadronicOverEm();
   // Endcap only variables
   allMVAVars.PreShowerOverRaw  = superCluster->preshowerEnergy() / superCluster->rawEnergy();
 
