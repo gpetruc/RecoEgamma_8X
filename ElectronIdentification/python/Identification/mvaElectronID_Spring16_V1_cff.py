@@ -51,34 +51,34 @@ mvaCategoriesMapName   = mvaProducerModuleLabel + ":" + mvaSpring16ClassName + m
 
 # The working point for this MVA that is expected to have about 90% signal
 # efficiency in each category
-idName90 = "mvaEleID-Spring16-25ns-nonTrig-V1-wp90"
+idName90 = "mvaEleID-Spring16-25ns-V1-wp0"
 MVA_WP90 = EleMVA_6Categories_WP(
     idName = idName90,
     mvaValueMapName = mvaValueMapName,           # map with MVA values for all particles
     mvaCategoriesMapName = mvaCategoriesMapName, # map with category index for all particles
-    cutCategory0 = -0.083313, # EB1 low pt
-    cutCategory1 = -0.235222, # EB2 low pt
-    cutCategory2 = -0.67099, # EE low pt 
-    cutCategory3 =  0.913286, # EB1       
-    cutCategory4 =  0.805013, # EB2       
-    cutCategory5 =  0.358969  # EE        
+    cutCategory0 = 1.1, # EB1 low pt  0.340477854013
+    cutCategory1 = 1.1, # EB2 low pt 0.163703802228
+    cutCategory2 = 1.1, # EE low pt 0.10562511608
+    cutCategory3 = 0.802206939459, # EB1       
+    cutCategory4 = 0.720191025734, # EB2       
+    cutCategory5 = 0.442796376348  # EE        
     )
 
-idName80 = "mvaEleID-Spring16-25ns-nonTrig-V1-wp80"
+idName80 = "mvaEleID-Spring16-V1-wp80"
 MVA_WP80 = EleMVA_6Categories_WP(
     idName = idName80,
     mvaValueMapName = mvaValueMapName,           # map with MVA values for all particles
     mvaCategoriesMapName = mvaCategoriesMapName, # map with category index for all particles
-    cutCategory0 =  0.287435, # EB1 low pt
-    cutCategory1 =  0.221846, # EB2 low pt
-    cutCategory2 = -0.303263, # EE low pt 
-    cutCategory3 =  0.967083, # EB1       
-    cutCategory4 =  0.929117, # EB2       
-    cutCategory5 =  0.726311  # EE        
-    )
+    cutCategory0 = 1.1, # EB1 low pt 0.656394422054
+    cutCategory1 = 1.1, # EB2 low pt 0.56094340086
+    cutCategory2 = 1.1, # EE low pt 0.393607741594
+    cutCategory3 =  0.938146269321, # EB1       
+    cutCategory4 =  0.919186663628, # EB2       
+    cutCategory5 =  0.822673904896  # EE        
+   )
 
 ### WP tuned for HZZ analysis with very high efficiency (about 98%)
-idNameLoose = "mvaEleID-Spring16-25ns-nonTrig-V1-wpLoose"
+idNameLoose = "mvaEleID-Spring16-V1-wpLoose"
 MVA_WPLoose = EleMVA_6Categories_WP(
     idName = idNameLoose,
     mvaValueMapName = mvaValueMapName,           # map with MVA values for all particles
